@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Random assignment demo</title>
+        <script src="jspsych-6.3.1/jspsych.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-survey-text.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-image-button-response.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-audio-button-response.js"></script>
+        <link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body></body>
+
+    <script>
+
+/******************************************************************************/
+/*** Random assignment to condition *******************************************/
+/******************************************************************************/
+
+var conditions = ["condition 1","condition 2","condition 3"]
+var assigned_condition = jsPsych.randomization.sampleWithoutReplacement(conditions,1)[0]
+
+var show_condition = {
+  type: 'html-button-response',
+  stimulus: "<p>Condition: " + assigned_condition + "</p>",
+  choices:[]
+};
+
+jsPsych.init({
+        timeline: [show_condition]
+    })
+
+    </script>
+
+</html>

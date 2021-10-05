@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Instruction attention check from Martin & White 2021</title>
+        <script src="jspsych-6.3.1/jspsych.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-survey-text.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-image-button-response.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-audio-button-response.js"></script>
+        <link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body></body>
+
+    <script>
+
+/******************************************************************************/
+/*** Contingent progression *******************************************/
+/******************************************************************************/
+
+//More html-button-response trials, just like the consent screen.
+var instruction_screen_1 = {
+  type: 'html-button-response',
+  stimulus: "<h3>Attention check from Martin & White 2021</h3> \
+  <p style='text-align:left'>On the next page, you will be asked to enter your MTurk ID. \
+  Do not do this. Instead, please enter \"I understand\". This will allow us to verify \
+  that you have read and understood these instructions.</p>",
+  choices:["Continue"]
+};
+
+//The attention check in the instructions
+var attention_check = {
+  type: 'survey-text',
+  questions:[{prompt: "Enter your MTurk ID here"}],
+};
+
+var passed_attention_check_trial = {
+    type: 'html-button-response',
+    stimulus: 'You passed the attention check and now get to do the rest of the experiment.',
+    choices:[]
+}
+
+var failed_attention_check_trial = {
+    type: 'html-button-response',
+    stimulus: 'You failed the attention check and do not get to do the rest of the experiment.',
+    choices:[]
+}
+
+var passed_attention_check_conditional = {
+    timeline: [passed_attention_check_trial],
+    conditional_function: function(){
+        var attention_check_response = jsPsych.data.get().last(1).values()[0].response.Q0;
+        if (attention_check_response=='I understand'){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+var failed_attention_check_conditional = {
+    timeline: [failed_attention_check_trial],
+    conditional_function: function(){
+        var attention_check_response = jsPsych.data.get().last(1).values()[0].response.Q0;
+        if (attention_check_response!='I understand'){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+jsPsych.init({
+        timeline: [instruction_screen_1,attention_check,passed_attention_check_conditional,failed_attention_check_conditional]
+    })
+
+    </script>
+
+</html>
