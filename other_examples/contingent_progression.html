@@ -13,6 +13,10 @@
 
     <script>
 
+/*NB Prolific does not like you to use this kind of attention check, see 
+https://researcher-help.prolific.co/hc/en-gb/articles/360009223553-Using-attention-checks-as-a-measure-of-data-quality
+*/
+
 /******************************************************************************/
 /*** Contingent progression *******************************************/
 /******************************************************************************/
@@ -27,7 +31,7 @@ var instruction_screen_1 = {
   choices:["Continue"]
 };
 
-//The attention check in the instructions
+//The attention check in the instructions. 
 var attention_check = {
   type: 'survey-text',
   questions:[{prompt: "Enter your MTurk ID here"}],
